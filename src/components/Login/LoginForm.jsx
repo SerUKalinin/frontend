@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLoginForm } from '../../hooks/useLoginForm';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import '../common/InputField/InputField.css';
+import './LoginForm.css';
 
 // Компонент LoginForm теперь принимает только onForgotPassword
 function LoginForm({ onForgotPassword }) {
