@@ -16,6 +16,7 @@ export function useRegisterForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsLoading(true);
         setError('');
 
         if (password !== confirmPassword) {
@@ -28,8 +29,6 @@ export function useRegisterForm() {
             return;
         }
 
-        setIsLoading(true);
-
         fetch("http://localhost:8080/auth/register-user", {
             method: "POST",
             headers: {
@@ -39,21 +38,19 @@ export function useRegisterForm() {
         })
         .then(response => {
             if (!response.ok) {
-                 // Попытка получить сообщение об ошибке из JSON
-                 return response.json().then(err => {
+                return response.json().then(err => {
                     throw new Error(err.message || 'Ошибка регистрации. Возможно, такой пользователь уже существует.');
                 }).catch(() => {
-                    // Если JSON парсинг не удался, или нет поля message
                     throw new Error('Ошибка регистрации. Возможно, такой пользователь уже существует.');
                 });
             }
-            return true; 
+            return true;
         })
         .then(success => {
             if (success) {
-                navigate('/verify-email', { state: { email } });
-            } else {
-                console.warn('useRegisterForm: Запрос успешен, но success не true?');
+                localStorage.setItem('pendingEmail', email);
+                localStorage.setItem('pendingPassword', password);
+                navigate('/verify-email');
             }
         })
         .catch(err => {
