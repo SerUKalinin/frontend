@@ -1,57 +1,214 @@
 .dashboard-container {
   min-height: 100vh;
   background-color: #f5f5f5;
-  padding: 2rem;
+  padding: 1rem;
 }
 
-.dashboard-header {
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-header h1 {
-  margin: 0;
-  color: #333;
-  font-size: 1.5rem;
+.page-title {
+  font-size: 1.8rem;
+  color: var(--dark);
+  font-weight: 600;
 }
 
-.logout-button {
-  padding: 0.5rem 1rem;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+/* Карточки */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.logout-button:hover {
-  background-color: #c82333;
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: all 0.3s;
 }
 
-.dashboard-content {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0,0,0,0.1);
 }
 
-.welcome-section {
-  text-align: center;
-}
-
-.welcome-section h2 {
-  color: #333;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
-.welcome-section p {
-  color: #666;
+.card-title {
   font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.card-badge {
+  background: var(--primary);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.card-body p {
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.card-date {
+  font-size: 0.8rem;
+  color: var(--gray);
+}
+
+/* Таблица */
+.data-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  margin-top: 2rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.table-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.table-body {
+  overflow-x: auto;
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.table-row.header {
+  background: #f8f9fa;
+  font-weight: 600;
+}
+
+.table-cell {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.table-cell:last-child {
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-new {
+  background: rgba(76, 201, 240, 0.1);
+  color: var(--success);
+}
+
+.status-in-progress {
+  background: rgba(67, 97, 238, 0.1);
+  color: var(--primary);
+}
+
+.status-completed {
+  background: rgba(72, 149, 239, 0.1);
+  color: #4895ef;
+}
+
+.status-expired {
+  background: rgba(247, 37, 133, 0.1);
+  color: var(--warning);
+}
+
+/* Кнопки действий */
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.action-btn.edit-btn {
+  background: rgba(67, 97, 238, 0.1);
+  color: var(--primary);
+}
+
+.action-btn.edit-btn:hover {
+  background: rgba(67, 97, 238, 0.2);
+}
+
+.action-btn.delete-btn {
+  background: rgba(247, 37, 133, 0.1);
+  color: var(--warning);
+}
+
+.action-btn.delete-btn:hover {
+  background: rgba(247, 37, 133, 0.2);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-row {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .table-cell {
+    padding: 0.5rem 0;
+    justify-content: space-between;
+  }
+
+  .table-row.header {
+    display: none;
+  }
+
+  .table-cell:before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-right: 1rem;
+  }
 } 
