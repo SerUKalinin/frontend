@@ -1,0 +1,33 @@
+.objects-section {
+    padding: 2rem;
+}
+
+.objects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 1.8rem;
+    color: var(--dark);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .objects-section {
+        padding: 1rem;
+    }
+
+    .objects-grid {
+        grid-template-columns: 1fr;
+    }
+} 
