@@ -43,31 +43,22 @@ function VerifyEmailForm() {
                 </p>
 
                 <form onSubmit={handleVerify}>
-                    <div className={styles.verificationCode} onPaste={handlePaste}>
-                        {Array(CODE_LENGTH).fill(0).map((_, index) => (
+                    <div className={styles.verificationCode}>
+                        {code.map((digit, index) => (
                             <input
                                 key={index}
                                 ref={el => inputsRef.current[index] = el}
-                                type="text"
+                                type="number"
                                 inputMode="numeric"
                                 pattern="[0-9]*"
-                                maxLength="1"
-                                value={code[index]}
+                                maxLength={1}
+                                value={digit}
                                 onChange={(e) => handleInputChange(e, index)}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
+                                onPaste={handlePaste}
+                                className={`${styles.verificationInput} ${error ? styles.error : ''} ${success ? styles.success : ''}`}
                                 disabled={isLoading}
-                                aria-label={`Цифра ${index + 1}`}
-                                style={{
-                                    backgroundColor: 'white',
-                                    color: 'black',
-                                    border: '1px solid #ccc',
-                                    width: '40px',
-                                    height: '40px',
-                                    textAlign: 'center',
-                                    fontSize: '1.2rem',
-                                    margin: '0 5px',
-                                    borderRadius: '4px'
-                                }}
+                                autoComplete="off"
                             />
                         ))}
                     </div>

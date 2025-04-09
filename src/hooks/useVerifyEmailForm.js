@@ -44,8 +44,7 @@ export function useVerifyEmailForm() {
 
         setIsResending(true);
         setError('');
-        startResendTimer();
-
+        
         try {
             const response = await fetch(
                 `http://localhost:8080/auth/resend-verification?email=${encodeURIComponent(email)}`,
@@ -71,45 +70,13 @@ export function useVerifyEmailForm() {
             }
 
             setSuccess(responseData.message || 'Новый код подтверждения отправлен на ваш email');
+            setCode(Array(6).fill('')); // Очищаем поля ввода
+            startResendTimer();
         } catch (error) {
             console.error('Error:', error);
             setError(error.message || 'Ошибка при отправке кода');
         } finally {
             setIsResending(false);
-        }
-    };
-
-    const handleInputChange = (e, index) => {
-        const value = e.target.value;
-        if (value.length <= 1 && /^[0-9]*$/.test(value)) {
-            const newCode = [...code];
-            newCode[index] = value;
-            setCode(newCode);
-
-            // Автоматический переход к следующему полю
-            if (value && index < 5) {
-                inputsRef.current[index + 1]?.focus();
-            }
-        }
-    };
-
-    const handleKeyDown = (e, index) => {
-        if (e.key === 'Backspace' && !code[index] && index > 0) {
-            inputsRef.current[index - 1]?.focus();
-        }
-    };
-
-    const handlePaste = (e) => {
-        e.preventDefault();
-        const pastedData = e.clipboardData.getData('text');
-        const numbers = pastedData.match(/\d/g);
-        
-        if (numbers && numbers.length) {
-            const newCode = [...code];
-            for (let i = 0; i < Math.min(numbers.length, 6); i++) {
-                newCode[i] = numbers[i];
-            }
-            setCode(newCode);
         }
     };
 
@@ -137,17 +104,52 @@ export function useVerifyEmailForm() {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Ошибка при подтверждении email');
+                throw new Error(data.message || 'Неверный код подтверждения');
             }
 
             setSuccess('Email успешно подтвержден');
             setTimeout(() => {
-                navigate('/auth');
+                navigate('/dashboard');
             }, 2000);
         } catch (error) {
-            setError(error.message || 'Ошибка при подтверждении email');
+            setError(error.message || 'Неверный код подтверждения');
+            // Автоматически отправляем новый код при неверном вводе
+            await handleResendCode();
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleInputChange = (e, index) => {
+        const value = e.target.value;
+        if (value.length <= 1 && /^[0-9]*$/.test(value)) {
+            const newCode = [...code];
+            newCode[index] = value;
+            setCode(newCode);
+
+            if (value && index < 5) {
+                inputsRef.current[index + 1]?.focus();
+            }
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === 'Backspace' && !code[index] && index > 0) {
+            inputsRef.current[index - 1]?.focus();
+        }
+    };
+
+    const handlePaste = (e) => {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData('text');
+        const numbers = pastedData.match(/\d/g);
+        
+        if (numbers && numbers.length) {
+            const newCode = [...code];
+            for (let i = 0; i < Math.min(numbers.length, 6); i++) {
+                newCode[i] = numbers[i];
+            }
+            setCode(newCode);
         }
     };
 
