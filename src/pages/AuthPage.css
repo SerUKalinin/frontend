@@ -17,6 +17,16 @@
 }
 
 /* Reset input styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s;
+    -webkit-text-fill-color: #000 !important;
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    background-color: white !important;
+}
+
 .auth-form-container input[type="text"],
 .auth-form-container input[type="password"],
 .auth-form-container input[type="email"],
@@ -24,12 +34,15 @@
     background-color: #FFFFFF !important;
     color: #000000 !important;
     opacity: 1 !important;
+    -webkit-text-fill-color: #000000 !important;
 }
 
 .auth-form-container input[type="text"]::placeholder,
 .auth-form-container input[type="password"]::placeholder,
 .auth-form-container input[type="email"]::placeholder {
-    color: #6B7280;
+    color: #000000 !important;
+    opacity: 1 !important;
+    -webkit-text-fill-color: #000000 !important;
 }
 
 body {
