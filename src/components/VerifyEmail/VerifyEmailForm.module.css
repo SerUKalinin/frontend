@@ -1,0 +1,139 @@
+/* Styles for Verification */
+.verificationContainer {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: center;
+    /* animation: fadeIn 0.5s ease; */
+}
+
+.verificationTitle {
+    font-size: 1.5rem;
+    color: var(--dark);
+    margin-bottom: 1rem;
+}
+
+.verificationMessage {
+    color: var(--gray);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.verificationCode {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.verificationCode input {
+    width: 50px;
+    height: 60px;
+    text-align: center;
+    font-size: 1.8rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s;
+    caret-color: var(--primary); /* Цвет курсора */
+    background-color: white; /* Переопределено в JSX, можно убрать? */
+    color: black;          /* Переопределено в JSX, можно убрать? */
+}
+
+.verificationCode input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+}
+
+/* Убираем стрелки у input[type=number] в некоторых браузерах */
+.verificationCode input::-webkit-outer-spin-button,
+.verificationCode input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.verificationCode input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+.verificationActions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Стили для кнопки 'Отменить' или других второстепенных кнопок */
+.btnOutline {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    /* Наследует общие стили .btn, добавляем специфичные */
+}
+
+.btnOutline:hover:not(:disabled) {
+    background: rgba(67, 97, 238, 0.1);
+}
+
+.resendLink {
+    margin-top: 1.5rem;
+}
+
+.resendLink a {
+    color: var(--primary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.resendLink a:hover:not(.disabled) {
+    text-decoration: underline;
+}
+
+.resendLink a.disabled {
+    color: var(--gray);
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+/* Сообщения об ошибках/успехе - можно вынести в общий модуль? */
+.message {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.errorMessage {
+    color: var(--danger);
+    background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid var(--danger);
+}
+
+.successMessage {
+    color: #0f5132;
+    background-color: rgba(76, 201, 240, 0.1);
+    border: 1px solid var(--success);
+}
+
+
+/* Media query для мобильных */
+@media (max-width: 480px) {
+    .verificationCode input {
+        width: 40px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    .verificationActions {
+        flex-direction: column;
+    }
+    /* Если кнопки должны быть 100% ширины на мобильных */
+    /* .btn {
+        width: 100%;
+    } */
+} 
