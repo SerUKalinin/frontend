@@ -86,7 +86,15 @@ const VerifyEmailForm = () => {
                 body: JSON.stringify({ email, code: verificationCode })
             });
 
-            const verifyData = await verifyResponse.json();
+            let verifyData;
+            const contentType = verifyResponse.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                verifyData = await verifyResponse.json();
+            } else {
+                const text = await verifyResponse.text();
+                throw new Error(text || 'Неверный код подтверждения');
+            }
+
             console.log('Verification response:', verifyData);
 
             if (verifyResponse.ok) {
@@ -128,6 +136,10 @@ const VerifyEmailForm = () => {
         } catch (error) {
             console.error('Error during verification/login:', error);
             setError(error.message || 'Ошибка при подтверждении кода');
+            // Очищаем поля ввода при ошибке
+            setCode(Array(6).fill(''));
+            // Фокусируемся на первом поле
+            inputsRef.current[0]?.focus();
         } finally {
             setIsLoading(false);
         }
@@ -151,14 +163,21 @@ const VerifyEmailForm = () => {
                 }
             );
 
-            const data = await response.json();
-            console.log('Resend response:', data);
-
             if (response.ok) {
-                setSuccess(data.message || 'Новый код подтверждения отправлен на ваш email');
+                setSuccess('Новый код подтверждения отправлен на ваш email');
                 setCode(Array(6).fill(''));
+                // Фокусируемся на первом поле
+                inputsRef.current[0]?.focus();
             } else {
-                throw new Error(data.message || 'Ошибка при отправке кода');
+                const contentType = response.headers.get('content-type');
+                let errorMessage;
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    errorMessage = data.message;
+                } else {
+                    errorMessage = await response.text();
+                }
+                throw new Error(errorMessage || 'Ошибка при отправке кода');
             }
         } catch (error) {
             console.error('Error resending code:', error);
