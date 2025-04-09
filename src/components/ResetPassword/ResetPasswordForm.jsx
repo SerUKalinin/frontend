@@ -85,7 +85,7 @@ const ResetPasswordForm = () => {
             }
 
             const data = await response.json();
-            
+
             localStorage.setItem('jwt', data.token);
             
             setSuccess('Пароль успешно изменен');
@@ -97,6 +97,10 @@ const ResetPasswordForm = () => {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const isFormValid = () => {
+        return checkPasswordsMatch() && Object.values(requirements).every(req => req);
     };
 
     return (
@@ -176,7 +180,7 @@ const ResetPasswordForm = () => {
                         <button
                             type="submit"
                             className="submit-button"
-                            disabled={isLoading}
+                            disabled={isLoading || !isFormValid()}
                         >
                             {isLoading ? 'Сброс пароля...' : 'Сбросить пароль'}
                         </button>
