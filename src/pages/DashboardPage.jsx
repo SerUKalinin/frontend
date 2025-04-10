@@ -1,39 +1,31 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useAuth } from '../hooks/useAuth';
+import Sidebar from '../components/Sidebar/Sidebar';
 import './DashboardPage.css';
 
-// Переименовываем и используем useNavigate для выхода
-function DashboardPage() {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+const DashboardPage = () => {
+    const { user, logout } = useAuth();
 
-  useEffect(() => {
-    console.log('Dashboard mounted, auth status:', isAuthenticated);
-    console.log('JWT token:', localStorage.getItem('jwt'));
-  }, [isAuthenticated]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('jwt');
-    navigate('/auth', { replace: true }); // Переходим на страницу входа
-  };
-
-  return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>Личный кабинет</h1>
-        <button onClick={handleLogout} className="logout-button">
-          Выйти
-        </button>
-      </header>
-      <main className="dashboard-content">
-        <div className="welcome-section">
-          <h2>Добро пожаловать!</h2>
-          <p>Вы успешно вошли в систему.</p>
+    return (
+        <div className="dashboard-layout">
+            <Sidebar />
+            <main className="dashboard-main">
+                <header className="dashboard-header">
+                    <h1>Добро пожаловать, {user?.username}!</h1>
+                    <button onClick={logout} className="logout-button">
+                        <i className="fas fa-sign-out-alt"></i>
+                        Выйти
+                    </button>
+                </header>
+                <div className="dashboard-content">
+                    <div className="welcome-section">
+                        <h2>Панель управления</h2>
+                        <p>Здесь вы можете управлять всеми аспектами вашей работы</p>
+                    </div>
+                </div>
+            </main>
         </div>
-      </main>
-    </div>
-  );
-}
+    );
+};
 
 export default DashboardPage; 
