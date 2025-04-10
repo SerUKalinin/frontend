@@ -48,6 +48,7 @@
 
 .dashboard-content {
   padding: 2rem;
+  margin-top: 70px; /* Высота хедера */
 }
 
 .welcome-section {
@@ -80,5 +81,13 @@
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+  }
+  
+  .dashboard-content {
+    padding: 1rem;
+  }
+  
+  .welcome-section {
+    padding: 1.5rem;
   }
 } 
