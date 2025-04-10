@@ -5,22 +5,35 @@
 .notification-bell {
     background: none;
     border: none;
+    outline: none;
     padding: 0.5rem;
     cursor: pointer;
     position: relative;
-    color: #6c757d;
-    transition: color 0.3s;
+    color: #64748b;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
 }
 
 .notification-bell:hover {
-    color: var(--primary, #4361ee);
+    color: #4361ee;
+}
+
+.notification-bell:focus {
+    outline: none;
+}
+
+.notification-bell:active {
+    transform: translateY(1px);
 }
 
 .notification-badge {
     position: absolute;
     top: 0;
     right: 0;
-    background: var(--danger, #dc3545);
+    background: #ef4444;
     color: white;
     border-radius: 50%;
     width: 18px;
