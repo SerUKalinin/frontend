@@ -15,24 +15,51 @@
     display: flex;
     min-height: 100vh;
     background-color: #f5f7fa;
+    width: 100%;
+    position: relative;
 }
 
 .main-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    margin-left: 280px;
+    transition: margin-left 0.3s;
+    width: calc(100% - 280px);
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 1;
 }
 
 .content {
     padding: 2rem;
+    padding-top: calc(48px + 2rem);
     flex-grow: 1;
     background: #f5f7fa;
+    width: 100%;
+    min-height: calc(100vh - 48px);
+    position: relative;
+    z-index: 1;
 }
 
 /* Адаптивность */
 @media (max-width: 992px) {
     .app-container {
         flex-direction: column;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        position: relative;
+    }
+
+    .content {
+        padding-top: 2rem;
+        min-height: auto;
     }
 }
 
