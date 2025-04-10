@@ -1,0 +1,40 @@
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f6fa;
+}
+
+.layout-container {
+    display: flex;
+    flex: 1;
+    margin-top: 60px; /* Высота header */
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 280px; /* Ширина сайдбара */
+    transition: margin-left 0.3s ease;
+    width: calc(100% - 280px); /* Полная ширина минус сайдбар */
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        margin-left: 80px; /* Ширина свернутого сайдбара */
+        width: calc(100% - 80px);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 10px;
+    }
+    
+    .layout-container {
+        margin-top: 50px; /* Меньшая высота header на мобильных */
+    }
+}
