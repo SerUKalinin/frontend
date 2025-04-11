@@ -41,7 +41,6 @@ function ForgotPasswordForm({ onShowLogin }) {
             <h2 className="form-title">Восстановление пароля</h2>
             {/* Отображаем сообщения из хука */}
             {error && <div className="message error-message">{error}</div>}
-            {success && <div className="message success-message">{success}</div>}
             <div className="form-group">
                 <label className="form-label" htmlFor="forgot-email">Email</label>
                 <input
@@ -55,15 +54,16 @@ function ForgotPasswordForm({ onShowLogin }) {
                 />
             </div>
             <div className="form-actions">
-                <button type="submit" className={`btn btn-primary ${isLoading ? 'loading' : ''}`} disabled={isLoading}>
+                <button type="submit" className={`btn-primary ${isLoading ? 'loading' : ''}`} disabled={isLoading}>
                     <span>Сбросить пароль</span>
-                    <div className="loading-spinner"></div>
+                    {isLoading && <div className="loading-spinner"></div>}
                 </button>
             </div>
             <div className="form-footer">
                 {/* Обработчик onShowLogin для кнопки "Вернуться к входу" */}
                 <a href="#" onClick={(e) => { e.preventDefault(); setSuccess(''); setError(''); onShowLogin(); }}>Вернуться к входу</a>
             </div>
+            {success && <div className="message success-message">{success}</div>}
         </form>
     );
 }

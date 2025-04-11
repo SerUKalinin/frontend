@@ -1,0 +1,15 @@
+.logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo h1 {
+    color: var(--primary);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.logo p {
+    color: var(--gray);
+    font-size: 1rem;
+} 

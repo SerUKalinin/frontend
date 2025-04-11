@@ -1,39 +1,26 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useAuth } from '../hooks/useAuth';
+import Sidebar from '../components/Sidebar/Sidebar';
+import Header from '../components/Header/Header';
 import './DashboardPage.css';
 
-// Переименовываем и используем useNavigate для выхода
-function DashboardPage() {
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+const DashboardPage = () => {
+    const { user } = useAuth();
 
-  useEffect(() => {
-    console.log('Dashboard mounted, auth status:', isAuthenticated);
-    console.log('JWT token:', localStorage.getItem('jwt'));
-  }, [isAuthenticated]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('jwt');
-    navigate('/auth', { replace: true }); // Переходим на страницу входа
-  };
-
-  return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <h1>Личный кабинет</h1>
-        <button onClick={handleLogout} className="logout-button">
-          Выйти
-        </button>
-      </header>
-      <main className="dashboard-content">
-        <div className="welcome-section">
-          <h2>Добро пожаловать!</h2>
-          <p>Вы успешно вошли в систему.</p>
+    return (
+        <div className="dashboard-layout">
+            <Sidebar />
+            <div className="dashboard-main">
+                <Header />
+                <div className="dashboard-content">
+                    <div className="welcome-section">
+                        <h2>Панель управления</h2>
+                        <p>Здесь вы можете управлять всеми аспектами вашей работы</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </main>
-    </div>
-  );
-}
+    );
+};
 
 export default DashboardPage; 
