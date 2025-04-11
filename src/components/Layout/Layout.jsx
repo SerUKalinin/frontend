@@ -5,15 +5,17 @@ import './Layout.css';
 
 const Layout = ({ children }) => {
     return (
-        <div className="layout">
+        <>
             <Header />
-            <div className="layout-container">
-                <Sidebar />
-                <main className="main-content">
-                    {children}
-                </main>
+            <Sidebar />
+            <div className="layout">
+                <div className="layout-container">
+                    <div className="layout-content">
+                        {children}
+                    </div>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
