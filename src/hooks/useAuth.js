@@ -6,6 +6,7 @@ export function useAuth() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [user, setUser] = useState(null);
 
     const validateToken = (token) => {
         if (!token) {
@@ -16,6 +17,12 @@ export function useAuth() {
             const decoded = jwtDecode(token);
             const currentTime = Date.now() / 1000;
             const isValid = decoded.exp > currentTime;
+            if (isValid) {
+                setUser({
+                    username: decoded.sub,
+                    roles: decoded.roles ? decoded.roles.split(',') : []
+                });
+            }
             console.log('Проверка токена:', isValid ? 'токен валиден' : 'токен истек');
             return isValid;
         } catch (error) {
@@ -109,6 +116,7 @@ export function useAuth() {
         isAuthenticated,
         isLoading,
         error,
+        user,
         logout
     };
 } 
