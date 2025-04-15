@@ -1,0 +1,55 @@
+.recent-tasks {
+    width: 100%;
+}
+
+.recent-tasks-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.tasks-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.tasks-table th,
+.tasks-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.tasks-table th {
+    font-weight: 600;
+    color: #666;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tasks-table td {
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.tasks-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+    .recent-tasks-title {
+        font-size: 1.1rem;
+    }
+
+    .tasks-table th,
+    .tasks-table td {
+        padding: 0.75rem;
+    }
+}
