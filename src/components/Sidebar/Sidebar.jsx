@@ -6,12 +6,12 @@ import './Sidebar.css';
 
 const Sidebar = () => {
     const { logout } = useAuth();
-    const { userInfo, loading, error } = useUserInfo();
+    const { username, email, role, isLoading, error } = useUserInfo();
 
     // Функция для получения инициалов пользователя
     const getUserInitials = () => {
-        if (!userInfo || !userInfo.firstName) return 'U';
-        return `${userInfo.firstName.charAt(0)}${userInfo.lastName ? userInfo.lastName.charAt(0) : ''}`;
+        if (!username) return 'U';
+        return username.charAt(0).toUpperCase();
     };
 
     // Функция для форматирования роли пользователя
@@ -31,12 +31,6 @@ const Sidebar = () => {
             default:
                 return 'Пользователь';
         }
-    };
-
-    // Функция для получения полного имени
-    const getFullName = () => {
-        if (!userInfo) return 'Пользователь';
-        return `${userInfo.firstName} ${userInfo.lastName || ''}`.trim();
     };
 
     return (
@@ -67,7 +61,7 @@ const Sidebar = () => {
                     <span>Профиль</span>
                 </NavLink>
 
-                {userInfo?.roles === 'ROLE_ADMIN' && (
+                {role === 'ROLE_ADMIN' && (
                     <NavLink to="/dashboard/users" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
                         <i className="fas fa-users-cog"></i>
                         <span>Пользователи</span>
@@ -76,17 +70,20 @@ const Sidebar = () => {
             </nav>
 
             <div className="user-profile">
-                <div className="user-avatar" title={loading ? 'Загрузка...' : error ? 'Ошибка загрузки' : getFullName()}>
-                    {loading ? '...' : error ? '!' : getUserInitials()}
+                <div className="user-avatar" title={isLoading ? 'Загрузка...' : error ? 'Ошибка загрузки' : username}>
+                    {isLoading ? '...' : error ? '!' : getUserInitials()}
                 </div>
                 <div className="user-info">
                     <div className="user-name">
-                        {loading ? 'Загрузка...' : error ? 'Ошибка' : getFullName()}
+                        {isLoading ? 'Загрузка...' : error ? 'Ошибка' : username}
                     </div>
                     <div className="user-role">
-                        {loading ? '' : error ? 'Попробуйте позже' : formatRole(userInfo?.roles)}
+                        {isLoading ? '' : error ? 'Попробуйте позже' : formatRole(role)}
                     </div>
                 </div>
+                <button className="logout-button" onClick={logout}>
+                    <i className="fas fa-sign-out-alt"></i>
+                </button>
             </div>
         </aside>
     );

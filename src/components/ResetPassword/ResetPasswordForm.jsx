@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import './ResetPasswordForm.css';
 
@@ -21,12 +21,6 @@ const ResetPasswordForm = () => {
         number: false,
         special: false
     });
-
-    useEffect(() => {
-        if (!token) {
-            navigate('/auth');
-        }
-    }, [token, navigate]);
 
     const checkPasswordRequirements = (password) => {
         const checks = {
@@ -67,36 +61,15 @@ const ResetPasswordForm = () => {
         setSuccess('');
         setIsLoading(true);
 
-        try {
-            const response = await fetch('http://localhost:8080/auth/reset-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    token,
-                    newPassword
-                })
-            });
-
-            if (!response.ok) {
-                const text = await response.text();
-                throw new Error(text || 'Ошибка при сбросе пароля');
-            }
-
-            const data = await response.json();
-
-            localStorage.setItem('jwt', data.token);
-            
+        // Моковая логика сброса пароля
+        setTimeout(() => {
+            localStorage.setItem('jwt', 'mock-jwt-token');
             setSuccess('Пароль успешно изменен');
             setTimeout(() => {
                 navigate('/dashboard', { replace: true });
             }, 2000);
-        } catch (error) {
-            setError(error.message || 'Ошибка при сбросе пароля');
-        } finally {
             setIsLoading(false);
-        }
+        }, 1000);
     };
 
     const isFormValid = () => {
@@ -110,84 +83,86 @@ const ResetPasswordForm = () => {
                 <p>Система управления недвижимостью</p>
             </div>
 
-            <div className="form-container">
-                <h2 className="form-title">Сброс пароля</h2>
+            <div className="reset-password-form">
+                <h2>Сброс пароля</h2>
+                <p className="form-description">
+                    Введите новый пароль для вашей учетной записи
+                </p>
+
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label className="form-label">Новый пароль</label>
-                        <div className="input-group">
+                        <label htmlFor="newPassword">Новый пароль</label>
+                        <div className="password-input-container">
                             <input
-                                type={showPassword ? 'text' : 'password'}
-                                className="form-input"
+                                type={showPassword ? "text" : "password"}
+                                id="newPassword"
                                 value={newPassword}
                                 onChange={handlePasswordChange}
-                                required
+                                className="form-input"
+                                placeholder="Введите новый пароль"
                             />
                             <button
                                 type="button"
-                                className="password-toggle"
+                                className="toggle-password"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
-                                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
+                                {showPassword ? "Скрыть" : "Показать"}
                             </button>
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">Подтверждение пароля</label>
-                        <div className="input-group">
+                        <label htmlFor="confirmPassword">Подтвердите пароль</label>
+                        <div className="password-input-container">
                             <input
-                                type={showConfirmPassword ? 'text' : 'password'}
-                                className="form-input"
+                                type={showConfirmPassword ? "text" : "password"}
+                                id="confirmPassword"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                required
+                                className="form-input"
+                                placeholder="Повторите новый пароль"
                             />
                             <button
                                 type="button"
-                                className="password-toggle"
+                                className="toggle-password"
                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                             >
-                                <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
+                                {showConfirmPassword ? "Скрыть" : "Показать"}
                             </button>
                         </div>
                     </div>
 
                     <div className="password-requirements">
-                        <div className={`requirement ${requirements.length ? 'valid' : 'invalid'}`}>
-                            <i className={`fas ${requirements.length ? 'fa-check-circle' : 'fa-circle'}`} />
-                            <span>Минимум 8 символов</span>
-                        </div>
-                        <div className={`requirement ${requirements.uppercase ? 'valid' : 'invalid'}`}>
-                            <i className={`fas ${requirements.uppercase ? 'fa-check-circle' : 'fa-circle'}`} />
-                            <span>Минимум 1 заглавная буква</span>
-                        </div>
-                        <div className={`requirement ${requirements.lowercase ? 'valid' : 'invalid'}`}>
-                            <i className={`fas ${requirements.lowercase ? 'fa-check-circle' : 'fa-circle'}`} />
-                            <span>Минимум 1 строчная буква</span>
-                        </div>
-                        <div className={`requirement ${requirements.number ? 'valid' : 'invalid'}`}>
-                            <i className={`fas ${requirements.number ? 'fa-check-circle' : 'fa-circle'}`} />
-                            <span>Минимум 1 цифра</span>
-                        </div>
-                        <div className={`requirement ${requirements.special ? 'valid' : 'invalid'}`}>
-                            <i className={`fas ${requirements.special ? 'fa-check-circle' : 'fa-circle'}`} />
-                            <span>Минимум 1 специальный символ (!@#$%^&*()_+-=[]{}|;:,.&lt;&gt;?)</span>
-                        </div>
-                    </div>
-
-                    <div className="form-actions">
-                        <button
-                            type="submit"
-                            className="submit-button"
-                            disabled={isLoading || !isFormValid()}
-                        >
-                            {isLoading ? 'Сброс пароля...' : 'Сбросить пароль'}
-                        </button>
+                        <h3>Требования к паролю:</h3>
+                        <ul>
+                            <li className={requirements.length ? "met" : ""}>
+                                Минимум 8 символов
+                            </li>
+                            <li className={requirements.uppercase ? "met" : ""}>
+                                Минимум одна заглавная буква
+                            </li>
+                            <li className={requirements.lowercase ? "met" : ""}>
+                                Минимум одна строчная буква
+                            </li>
+                            <li className={requirements.number ? "met" : ""}>
+                                Минимум одна цифра
+                            </li>
+                            <li className={requirements.special ? "met" : ""}>
+                                Минимум один специальный символ
+                            </li>
+                        </ul>
                     </div>
 
                     {error && <div className="error-message">{error}</div>}
                     {success && <div className="success-message">{success}</div>}
+
+                    <button
+                        type="submit"
+                        className="submit-button"
+                        disabled={!isFormValid() || isLoading}
+                    >
+                        {isLoading ? "Изменение пароля..." : "Изменить пароль"}
+                    </button>
                 </form>
             </div>
         </div>
